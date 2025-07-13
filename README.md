@@ -17,14 +17,13 @@ A responsive, cross-platform casino application built with **Expo**, **React Nat
 
 ## 📦 Tech Stack
 
-| Layer        | Library                                 |
-| ------------ | --------------------------------------- |
-| UI           | `Tamagui`                               |
-| Navigation   | `expo-router`                           |
-| Animation    | `react-native-reanimated`               |
-| Vector Icons | `@expo/vector-icons`                    |
-| Testing      | `Jest`, `@testing-library/react-native` |
-| Platform     | `Expo`                                  |
+| Layer        | Library                   |
+| ------------ | ------------------------- |
+| UI           | `Tamagui`                 |
+| Navigation   | `expo-router`             |
+| Animation    | `react-native-reanimated` |
+| Vector Icons | `@expo/vector-icons`      |
+| Platform     | `Expo`                    |
 
 ---
 
