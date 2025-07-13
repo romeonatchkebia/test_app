@@ -68,6 +68,7 @@ const Header = () => {
               height={36}
               br={50}
             />
+
             <GreetingText
               style={fadeInFromLeft}
               fontFamily="$body"

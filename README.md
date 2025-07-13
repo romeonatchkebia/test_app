@@ -12,7 +12,6 @@ A responsive, cross-platform casino application built with **Expo**, **React Nat
 - 🧩 Modular architecture (`ui`, `components`, `hooks`)
 - 🎞️ Smooth animations with **react-native-reanimated**
 - 💰 Animated balance counter
-- 🧪 Unit testing with **Jest + Testing Library**
 
 ---
 
@@ -29,18 +28,31 @@ A responsive, cross-platform casino application built with **Expo**, **React Nat
 
 ---
 
-1. **Install dependencies**
+## 🎨 Design References
+
+- [🎰 Sports Betting Mobile App](https://www.behance.net/gallery/211511987/Sports-Betting-Mobile-App)
+- [📱 Online Betting App UI/UX Design](https://www.behance.net/gallery/204420341/Online-Betting-App-UI-UX-Design?tracking_source=search_projects|casino+app+design&l=14)
+
+## 🛠️ Getting Started
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+```
+
+2. **Install dependencies**
 
 ```bash
 npm install
 ```
 
-```bash
-npm run start
-```
+3. **Run the app**
 
 ```bash
-npm run web
-npm run android
-npm run ios
+npm run start         # Starts the Expo dev server
+npm run web           # Opens in web browser
+npm run android       # Runs on Android emulator/device
+npm run ios           # Runs on iOS simulator/device (macOS only)
 ```

@@ -92,7 +92,7 @@ const Balance = ({ duration, balanceValue, animation }: BalanceProps) => {
     <Animated.View style={[animation, balanceStyle]}>
       <AvailableBalance>Available Balance</AvailableBalance>
 
-      <XStack alignItems="center" height={20}>
+      <XStack alignItems="center" height={26}>
         {error ? (
           <BalanceErrorText>Unable to fetch balance</BalanceErrorText>
         ) : (
