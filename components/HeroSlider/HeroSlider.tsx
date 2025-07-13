@@ -72,7 +72,6 @@ const HeroSlider = ({
     }
 
     return stopAutoPlay;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, paused, autoPlay]);
 
   const stopAutoPlay = () => {
