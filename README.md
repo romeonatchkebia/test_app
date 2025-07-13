@@ -38,8 +38,8 @@ A responsive, cross-platform casino application built with **Expo**, **React Nat
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/romeonatchkebia/test_app
+cd test_app
 ```
 
 2. **Install dependencies**
