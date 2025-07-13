@@ -1,20 +1,15 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
-import React, { useEffect } from "react";
-import {
-  Image,
-  Platform,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { useEffect } from "react";
+import { Platform, TouchableOpacity } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withDelay,
   withTiming,
 } from "react-native-reanimated";
+import { styled, Text, XStack, YStack, Image, View, Stack } from "tamagui";
 import Balance from "../ui/Balance/Balance";
 import BurgerMenu from "../ui/BurgerMenu/BurgerMenu";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const USERNAME = "John";
 const BALANCE = 11341250.75;
@@ -22,6 +17,28 @@ const BALANCE = 11341250.75;
 const X = 10;
 const TIME = 500;
 const DELAY = 200;
+
+const GreetingText = Animated.createAnimatedComponent(Text);
+
+const NotificationBadge = styled(View, {
+  position: "absolute",
+  top: 8,
+  right: 10,
+  width: 8,
+  height: 8,
+  borderRadius: 4,
+  backgroundColor: "red",
+});
+const NotificationButton = styled(TouchableOpacity, {
+  alignItems: "center",
+  justifyContent: "center",
+  position: "relative",
+  marginRight: 12,
+  backgroundColor: "#ecececda",
+  width: 36,
+  height: 36,
+  borderRadius: 18,
+});
 
 const Header = () => {
   const offset = useSharedValue(0);
@@ -37,149 +54,73 @@ const Header = () => {
     opacity.value = withDelay(DELAY, withTiming(1, { duration: TIME }));
   }, [offset, opacity]);
 
-  const flexDirection = Platform.OS === "web" ? "row" : "column";
-  const headerStyle =
-    Platform.OS === "web" ? styles.headerContainerWeb : styles.headerContainer;
+  const isWeb = Platform.OS === "web";
 
   return (
-    <View style={headerStyle}>
-      <View style={styles.avatarMenuContainer}>
-        <View
-          style={[
-            {
-              flexDirection: flexDirection,
-            },
-            styles.profileBalanceContainer,
-          ]}
-        >
-          <View style={styles.profile}>
+    <YStack
+      justifyContent="space-between"
+      px={16}
+      py={16}
+      backgroundColor="white"
+      elevation={4}
+      shadowColor="#000"
+      shadowOpacity={0.1}
+      shadowOffset={{ width: 0, height: 2 }}
+      shadowRadius={4}
+    >
+      <XStack justifyContent="space-between">
+        <XStack flex={1} flexDirection={isWeb ? "row" : "column"}>
+          <XStack ai="center">
             <Image
               source={require("../../assets/images/profile-images/man_profile.jpeg")}
-              style={styles.avatar}
+              width={36}
+              height={36}
+              borderRadius={50}
             />
-
-            <Animated.Text style={[styles.greeting, fadeInFromLeft]}>
+            <GreetingText
+              style={fadeInFromLeft}
+              fontFamily={"Inter"}
+              fontSize={14}
+              color={"#333"}
+              px={10}
+              py={8}
+              borderWidth={1}
+              borderColor={"black"}
+              borderRadius={20}
+              height={36}
+            >
               Good evening, {USERNAME}
-            </Animated.Text>
-          </View>
+            </GreetingText>
+          </XStack>
 
           <Balance
             duration={TIME}
             balanceValue={BALANCE}
             animation={fadeInFromLeft}
           />
-        </View>
+        </XStack>
 
-        <View style={styles.notificationMenuContainer}>
-          <TouchableOpacity style={styles.notificationIconWrapper}>
+        <XStack>
+          <NotificationButton>
             <Ionicons name="notifications-outline" size={20} color="gray" />
 
-            <View style={styles.notificationBadge} />
-          </TouchableOpacity>
+            <NotificationBadge />
+          </NotificationButton>
 
-          <BurgerMenu onPress={() => {}} />
-        </View>
-      </View>
-    </View>
+          <Stack
+            width={36}
+            height={36}
+            ai="center"
+            jc="center"
+            br={18}
+            bg="#ecececda"
+          >
+            <BurgerMenu onPress={() => {}} />
+          </Stack>
+        </XStack>
+      </XStack>
+    </YStack>
   );
 };
 
 export default Header;
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    justifyContent: "space-between",
-    padding: 16,
-    backgroundColor: "#fff",
-    elevation: 4,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-  },
-  headerContainerWeb: {
-    justifyContent: "space-between",
-    padding: 16,
-    backgroundColor: "#fff",
-    elevation: 4,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-  },
-  avatarMenuContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  profileBalanceContainer: {
-    flex: 1,
-  },
-  avatar: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    borderWidth: 1,
-  },
-  profile: {
-    flexDirection: "row",
-  },
-  menuButtonWrapper: {
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 18,
-    backgroundColor: "#ecececda",
-    width: 36,
-    height: 36,
-    cursor: "pointer",
-  },
-  menuButton: {
-    gap: 4,
-  },
-  menuButtonline: {
-    height: 2,
-    width: 10,
-    backgroundColor: "#b2b2b2",
-    borderRadius: 20,
-  },
-  menuButtonMiddleline: {
-    height: 2,
-    width: 14,
-    backgroundColor: "#8d8d8d",
-    borderRadius: 20,
-  },
-  greeting: {
-    fontSize: 14,
-    color: "#333",
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 1,
-    borderColor: "black",
-    borderRadius: 20,
-    height: 36,
-  },
-  userName: {
-    fontWeight: "bold",
-  },
-  notificationMenuContainer: {
-    flexDirection: "row",
-  },
-  notificationIconWrapper: {
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
-    marginRight: 12,
-    backgroundColor: "#ecececda",
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-  },
-  notificationBadge: {
-    position: "absolute",
-    top: 8,
-    right: 10,
-    width: 8,
-    height: 8,
-    backgroundColor: "red",
-    borderRadius: 4,
-  },
-});

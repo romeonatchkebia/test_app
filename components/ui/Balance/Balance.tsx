@@ -1,18 +1,32 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRef, useState } from "react";
-import {
-  ActivityIndicator,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Platform } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { styled, XStack, Text, Spinner } from "tamagui";
+import { RefreshCw } from "@tamagui/lucide-icons";
+
+const balanceStyle = {
+  ...(Platform.OS === "web" ? { marginLeft: "4%" } : { marginTop: 10 }),
+};
+
+const AnimatedText = Animated.createAnimatedComponent(Text);
+
+const AvailableBalance = styled(Text, {
+  fontFamily: "Inter",
+  fontSize: 14,
+  fontWeight: "normal",
+  color: "#a3a3a3",
+});
+
+const BalanceErrorText = styled(Text, {
+  fontWeight: "bold",
+  fontFamily: "Inter",
+  color: "red",
+  fontSize: 14,
+});
 
 type BalanceProps = {
   duration: number;
@@ -74,79 +88,55 @@ const Balance = ({ duration, balanceValue, animation }: BalanceProps) => {
     }, 1000);
   };
 
-  const balanceStyle =
-    Platform.OS === "web" ? styles.balanceWeb : styles.balance;
-
   return (
-    <Animated.View style={[balanceStyle, animation]}>
-      <Text style={styles.availableBalance}>Available Balance</Text>
+    <Animated.View style={[animation, balanceStyle]}>
+      <AvailableBalance>Available Balance</AvailableBalance>
 
-      <View style={styles.balanceRow}>
+      <XStack alignItems="center" height={20}>
         {error ? (
-          <Text style={[styles.balanceText, { color: "red", fontSize: 14 }]}>
-            Unable to fetch balance
-          </Text>
+          <BalanceErrorText>Unable to fetch balance</BalanceErrorText>
         ) : (
           <>
-            <Animated.Text style={[styles.balanceText, oldBalanceStyle]}>
+            <AnimatedText
+              style={oldBalanceStyle}
+              fontSize={18}
+              fontFamily="InterBold"
+              color={"black"}
+            >
               {`$${prevBalance.toLocaleString("en-US", {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })}`}
-            </Animated.Text>
+            </AnimatedText>
 
-            <Animated.Text style={[styles.balanceText, newBalanceStyle]}>
+            <AnimatedText
+              style={newBalanceStyle}
+              fontSize={18}
+              fontFamily="InterBold"
+              color={"black"}
+            >
               {`$${balance.toLocaleString("en-US", {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })}`}
-            </Animated.Text>
+            </AnimatedText>
           </>
         )}
 
         {!loading ? (
-          <TouchableOpacity onPress={refreshBalance}>
-            <Ionicons
-              name="refresh"
-              size={18}
-              color="gray"
-              style={styles.refreshIcon}
-            />
-          </TouchableOpacity>
+          <RefreshCw
+            size={16}
+            color="gray"
+            marginLeft={8}
+            onPress={refreshBalance}
+            cursor="pointer"
+          />
         ) : (
-          <ActivityIndicator size={18} style={styles.refreshIcon} />
+          <Spinner size="small" color="gray" marginLeft={8} />
         )}
-      </View>
+      </XStack>
     </Animated.View>
   );
 };
 
 export default Balance;
-
-const styles = StyleSheet.create({
-  balance: {
-    marginTop: 10,
-  },
-  balanceWeb: {
-    marginLeft: "4%",
-  },
-  availableBalance: {
-    fontSize: 14,
-    fontWeight: "normal",
-    color: "#a3a3a3",
-  },
-  balanceRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    height: 20,
-  },
-  balanceText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#000",
-  },
-  refreshIcon: {
-    marginLeft: 8,
-    cursor: "pointer",
-  },
-});

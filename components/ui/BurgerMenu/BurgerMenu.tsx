@@ -1,8 +1,8 @@
-import { Pressable } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { styled, View, YStack } from "tamagui";
 
 // Styled components
-const MenuWrapper = styled(View, {
+const MenuWrapper = styled(TouchableOpacity, {
   alignItems: "center",
   justifyContent: "center",
   borderRadius: 18,
@@ -30,14 +30,14 @@ type BurgerMenuProps = {
 
 const BurgerMenu = ({ onPress }: BurgerMenuProps) => {
   return (
-    <MenuWrapper>
-      <Pressable onPress={onPress}>
-        <YStack gap="$1">
+    <MenuWrapper onPress={onPress}>
+      <View>
+        <YStack gap="$1.5">
           <MenuLine alignSelf="flex-end" />
           <MenuMiddleLine />
           <MenuLine />
         </YStack>
-      </Pressable>
+      </View>
     </MenuWrapper>
   );
 };
