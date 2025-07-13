@@ -20,15 +20,6 @@ const DELAY = 200;
 
 const GreetingText = Animated.createAnimatedComponent(Text);
 
-const NotificationBadge = styled(View, {
-  position: "absolute",
-  top: 8,
-  right: 10,
-  width: 8,
-  height: 8,
-  borderRadius: 4,
-  backgroundColor: "red",
-});
 const NotificationButton = styled(TouchableOpacity, {
   alignItems: "center",
   justifyContent: "center",
@@ -104,7 +95,15 @@ const Header = () => {
           <NotificationButton>
             <Ionicons name="notifications-outline" size={20} color="gray" />
 
-            <NotificationBadge />
+            <View
+              position="absolute"
+              top={8}
+              right={10}
+              width={8}
+              height={8}
+              br={50}
+              bg="red"
+            />
           </NotificationButton>
 
           <Stack

@@ -5,7 +5,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-const { width: screenWidth } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 interface DotProps {
   index: number;
@@ -14,7 +14,7 @@ interface DotProps {
 
 const DotIndicator = ({ index, scrollX }: DotProps) => {
   const animatedStyle = useAnimatedStyle(() => {
-    const isActive = Math.round(scrollX.value / screenWidth) === index;
+    const isActive = Math.round(scrollX.value / width) === index;
 
     return {
       width: withTiming(isActive ? 20 : 8),

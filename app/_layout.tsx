@@ -27,8 +27,9 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+
   return (
-    <TamaguiProvider config={config} defaultTheme={colorScheme as any}>
+    <TamaguiProvider config={config} defaultTheme={colorScheme!}>
       <Slot />
     </TamaguiProvider>
   );

@@ -3,25 +3,31 @@ import {
   ActivityIndicator,
   Dimensions,
   FlatList,
-  Image,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  StyleSheet,
-  Text,
   TouchableOpacity,
-  View,
 } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import DotIndicator from "../ui/DotIndicator/DotIndicator";
+import { Image, View, Text, styled } from "tamagui";
 
 const { width } = Dimensions.get("window");
+
+const CardButton = styled(TouchableOpacity, {
+  marginTop: 12,
+  backgroundColor: "#fff",
+  paddingVertical: 8,
+  paddingHorizontal: 16,
+  borderRadius: 6,
+  alignSelf: "flex-start",
+});
 
 interface Slide {
   id: string;
   title: string;
   subtitle: string;
   image: string;
-  ctaLabel?: string;
+  buttonLabel?: string;
   onPress?: () => void;
 }
 
@@ -68,6 +74,7 @@ const HeroSlider = ({
     if (autoPlay) {
       startAutoPlay();
     }
+
     return stopAutoPlay;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, paused, autoPlay]);
@@ -95,8 +102,64 @@ const HeroSlider = ({
     setIndex(newIndex);
   };
 
+  const renderSlideItem = ({ item, index }: { item: Slide; index: number }) => (
+    <View width={width} height={250} jc="center" position="relative">
+      <Image
+        source={{ uri: item.image }}
+        width="100%"
+        height="100%"
+        position="absolute"
+        onLoad={() =>
+          setImageLoaded((prev) => {
+            const updated = [...prev];
+            updated[index] = true;
+            return updated;
+          })
+        }
+        onError={() =>
+          setImageLoaded((prev) => {
+            const updated = [...prev];
+            updated[index] = false;
+            return updated;
+          })
+        }
+      />
+
+      {!imageLoaded[index] && (
+        <View
+          backgroundColor="#eee"
+          jc="center"
+          ai="center"
+          position="absolute"
+          top={0}
+          right={0}
+          bottom={0}
+          left={0}
+        >
+          <ActivityIndicator size="large" color="#999" />
+        </View>
+      )}
+      <View flex={1} jc="flex-end" px={16} py={24} bg="rgba(0,0,0,0.3)">
+        <Text color="#fff" fontSize={20} fontWeight="InterBold">
+          {item.title}
+        </Text>
+        <Text color="#fff" fontSize={16} fontWeight="Inter" marginTop={4}>
+          {item.subtitle}
+        </Text>
+
+        {item.buttonLabel && item.onPress && (
+          <CardButton onPress={item.onPress}>
+            <Text color="black" fontWeight={600}>
+              {item.buttonLabel}
+            </Text>
+          </CardButton>
+        )}
+      </View>
+    </View>
+  );
+
   return (
-    <View style={styles.container}>
+    <View width="100%">
       <FlatList
         ref={scrollRef}
         data={slides}
@@ -104,46 +167,10 @@ const HeroSlider = ({
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item) => item.id}
-        renderItem={({ item, index: i }) => (
-          <View style={styles.slide}>
-            <Image
-              source={{ uri: item.image }}
-              style={styles.backgroundImage}
-              onLoad={() =>
-                setImageLoaded((prev) => {
-                  const updated = [...prev];
-                  updated[i] = true;
-                  return updated;
-                })
-              }
-              onError={() =>
-                setImageLoaded((prev) => {
-                  const updated = [...prev];
-                  updated[i] = false;
-                  return updated;
-                })
-              }
-            />
-            {!imageLoaded[i] && (
-              <View style={styles.loaderOverlay}>
-                <ActivityIndicator size="large" color="#999" />
-              </View>
-            )}
-            <View style={styles.overlay}>
-              <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.subtitle}>{item.subtitle}</Text>
-
-              {item.ctaLabel && item.onPress && (
-                <TouchableOpacity style={styles.button} onPress={item.onPress}>
-                  <Text style={styles.buttonText}>{item.ctaLabel}</Text>
-                </TouchableOpacity>
-              )}
-            </View>
-          </View>
-        )}
+        renderItem={renderSlideItem}
         getItemLayout={(_, index) => ({
-          length: width, // Each item's width is the screen width
-          offset: width * index, // Offset for item at 'index'
+          length: width,
+          offset: width * index,
           index,
         })}
         onScroll={scrollHandler}
@@ -152,7 +179,7 @@ const HeroSlider = ({
         onMomentumScrollEnd={handleMomentumScrollEnd}
       />
 
-      <View style={styles.dotsContainer}>
+      <View fd="row" jc="center" marginTop={12}>
         {slides.map((_, i) => (
           <DotIndicator key={`dot-${i}`} index={i} scrollX={scrollX} />
         ))}
@@ -162,66 +189,3 @@ const HeroSlider = ({
 };
 
 export default HeroSlider;
-
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-  },
-  slide: {
-    width,
-    height: 250,
-    justifyContent: "center",
-    position: "relative",
-  },
-  backgroundImage: {
-    width: "100%",
-    height: "100%",
-    position: "absolute",
-  },
-  loaderOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "#eee",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  overlay: {
-    flex: 1,
-    justifyContent: "flex-end",
-    paddingHorizontal: 16,
-    paddingVertical: 24,
-    backgroundColor: "rgba(0,0,0,0.3)",
-  },
-  title: {
-    color: "#fff",
-    fontSize: 20,
-    fontWeight: "700",
-  },
-  subtitle: {
-    color: "#fff",
-    fontSize: 16,
-    marginTop: 4,
-  },
-  button: {
-    marginTop: 12,
-    backgroundColor: "#fff",
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 6,
-    alignSelf: "flex-start",
-  },
-  buttonText: {
-    color: "#000",
-    fontWeight: "600",
-  },
-  dotsContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 12,
-    gap: 8,
-  },
-  dot: {
-    height: 8,
-    borderRadius: 4,
-    marginHorizontal: 4,
-  },
-});

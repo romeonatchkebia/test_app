@@ -9,7 +9,7 @@ const slides = [
     subtitle: "Start managing smarter.",
     image:
       "https://static.toiimg.com/photo/msid-110593191,width-96,height-65.cms",
-    ctaLabel: "Get Started",
+    buttonLabel: "Get Started",
     onPress: () => console.log("Start"),
   },
   {
