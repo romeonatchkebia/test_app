@@ -1,4 +1,4 @@
-# 🎰 Expo Casino App
+# 🎰 Expo Test App
 
 A responsive, cross-platform casino application built with **Expo**, **React Native**, and **Tamagui**. The app features a modern UI design, animated components, theme-based styling, and seamless web + mobile support.
 
