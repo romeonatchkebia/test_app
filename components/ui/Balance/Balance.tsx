@@ -101,7 +101,7 @@ const Balance = ({ duration, balanceValue, animation }: BalanceProps) => {
               style={oldBalanceStyle}
               fontSize={18}
               fontFamily="InterBold"
-              color={"black"}
+              color="$color"
             >
               {`$${prevBalance.toLocaleString("en-US", {
                 minimumFractionDigits: 2,
@@ -113,7 +113,7 @@ const Balance = ({ duration, balanceValue, animation }: BalanceProps) => {
               style={newBalanceStyle}
               fontSize={18}
               fontFamily="InterBold"
-              color={"black"}
+              color="$color"
             >
               {`$${balance.toLocaleString("en-US", {
                 minimumFractionDigits: 2,

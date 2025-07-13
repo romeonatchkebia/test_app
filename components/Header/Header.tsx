@@ -6,7 +6,7 @@ import Animated, {
   withDelay,
   withTiming,
 } from "react-native-reanimated";
-import { styled, Text, XStack, YStack, Image, View, Stack } from "tamagui";
+import { styled, Text, XStack, YStack, Image, View } from "tamagui";
 import Balance from "../ui/Balance/Balance";
 import BurgerMenu from "../ui/BurgerMenu/BurgerMenu";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -49,35 +49,35 @@ const Header = () => {
 
   return (
     <YStack
-      justifyContent="space-between"
-      px={16}
-      py={16}
-      backgroundColor="white"
-      elevation={4}
-      shadowColor="#000"
+      jc="space-between"
+      px="$4"
+      py="$4"
+      bg="$background"
+      elevation="$4"
+      shadowColor="$shadowColor"
       shadowOpacity={0.1}
       shadowOffset={{ width: 0, height: 2 }}
       shadowRadius={4}
     >
-      <XStack justifyContent="space-between">
+      <XStack jc="space-between">
         <XStack flex={1} flexDirection={isWeb ? "row" : "column"}>
           <XStack ai="center">
             <Image
               source={require("../../assets/images/profile-images/man_profile.jpeg")}
               width={36}
               height={36}
-              borderRadius={50}
+              br={50}
             />
             <GreetingText
               style={fadeInFromLeft}
-              fontFamily={"Inter"}
-              fontSize={14}
-              color={"#333"}
-              px={10}
-              py={8}
+              fontFamily="$body"
+              fontSize="$4"
+              color="$color"
+              px="$2"
+              py="$2"
               borderWidth={1}
-              borderColor={"black"}
-              borderRadius={20}
+              borderColor="$borderColor"
+              borderRadius="$6"
               height={36}
             >
               Good evening, {USERNAME}
@@ -93,12 +93,12 @@ const Header = () => {
 
         <XStack>
           <NotificationButton>
-            <Ionicons name="notifications-outline" size={20} color="gray" />
+            <Ionicons name="notifications-outline" size={20} color="$color" />
 
             <View
               position="absolute"
-              top={8}
-              right={10}
+              top="$2"
+              right="$2.5"
               width={8}
               height={8}
               br={50}
@@ -106,16 +106,7 @@ const Header = () => {
             />
           </NotificationButton>
 
-          <Stack
-            width={36}
-            height={36}
-            ai="center"
-            jc="center"
-            br={18}
-            bg="#ecececda"
-          >
-            <BurgerMenu onPress={() => {}} />
-          </Stack>
+          <BurgerMenu onPress={() => {}} />
         </XStack>
       </XStack>
     </YStack>

@@ -46,12 +46,9 @@ const HeroSlider = ({
   const scrollRef = useRef<FlatList<Slide> | null>(null);
 
   const [index, setIndex] = useState(0);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const [imageLoaded, setImageLoaded] = useState<boolean[]>(
-    Array(slides.length).fill(false)
-  );
   const [paused, setPaused] = useState(false);
+
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const startAutoPlay = () => {
     stopAutoPlay();
@@ -109,41 +106,14 @@ const HeroSlider = ({
         width="100%"
         height="100%"
         position="absolute"
-        onLoad={() =>
-          setImageLoaded((prev) => {
-            const updated = [...prev];
-            updated[index] = true;
-            return updated;
-          })
-        }
-        onError={() =>
-          setImageLoaded((prev) => {
-            const updated = [...prev];
-            updated[index] = false;
-            return updated;
-          })
-        }
       />
 
-      {!imageLoaded[index] && (
-        <View
-          backgroundColor="#eee"
-          jc="center"
-          ai="center"
-          position="absolute"
-          top={0}
-          right={0}
-          bottom={0}
-          left={0}
-        >
-          <ActivityIndicator size="large" color="#999" />
-        </View>
-      )}
       <View flex={1} jc="flex-end" px={16} py={24} bg="rgba(0,0,0,0.3)">
-        <Text color="#fff" fontSize={20} fontWeight="InterBold">
+        <Text color="#fff" fontSize={20} fontFamily="InterBold">
           {item.title}
         </Text>
-        <Text color="#fff" fontSize={16} fontWeight="Inter" marginTop={4}>
+
+        <Text color="#fff" fontSize={16} fontFamily="Inter" marginTop={4}>
           {item.subtitle}
         </Text>
 
